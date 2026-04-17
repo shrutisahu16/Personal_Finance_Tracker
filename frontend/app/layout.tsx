@@ -15,35 +15,82 @@
 //     </html>
 //   );
 // }
+// import "../styles/globals.css";
+// import Navbar from "../components/Navbar";
+// import Sidebar from "../components/Sidebar";
+// import ProtectedRoute from "../components/ProtectedRoute";
+
+// export default function RootLayout({ children }: any) {
+//       return (
+//     <html>
+//       <body>
+//         <ProtectedRoute>
+//           <div className="flex h-screen bg-gray-100">
+            
+//             {/* Sidebar */}
+//             <Sidebar />
+
+//             {/* Right Side */}
+//             <div className="flex flex-col flex-1">
+              
+//               {/* Navbar */}
+//               <Navbar />
+
+//               {/* Page Content */}
+//               <main className="p-6 overflow-y-auto">
+//                 {children}
+//               </main>
+
+//             </div>
+//           </div>
+//         </ProtectedRoute>
+//       </body>
+//     </html>
+//   );
+// }
+
+"use client";
+
 import "../styles/globals.css";
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
-import ProtectedRoute from "../components/ProtectedRoute";
+import { usePathname } from "next/navigation";
 
-export default function RootLayout({ children }: any) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const pathname = usePathname();
+
+  // 🔥 Check if auth page
+  const isAuthPage = pathname.startsWith("/auth");
+
   return (
     <html>
       <body>
-        <ProtectedRoute>
+        {isAuthPage ? (
+          // ✅ AUTH PAGES (NO NAVBAR/SIDEBAR)
+          <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+            {children}
+          </div>
+        ) : (
+          // ✅ PROTECTED PAGES (WITH LAYOUT)
           <div className="flex h-screen bg-gray-100">
             
             {/* Sidebar */}
             <Sidebar />
 
-            {/* Right Side */}
+            {/* Right */}
             <div className="flex flex-col flex-1">
-              
-              {/* Navbar */}
               <Navbar />
 
-              {/* Page Content */}
               <main className="p-6 overflow-y-auto">
                 {children}
               </main>
-
             </div>
           </div>
-        </ProtectedRoute>
+        )}
       </body>
     </html>
   );

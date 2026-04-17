@@ -9,7 +9,7 @@ import SpendingLineChart from "./components/SpendingLineChart";
 
 export default function DashboardPage() {
   const [data, setData] = useState<any>({});
-
+ 
   useEffect(() => {
     const fetchData = async () => {
       const res = await getDashboard();
